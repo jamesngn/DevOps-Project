@@ -3,7 +3,9 @@ pipeline {
 
     stages {
         stage('Test Build Trigger With Push Event') {
-            sh 'echo "Received a push event in GitHub.."'
+            steps {
+                sh 'echo "Received a push event in GitHub.."'
+            }
         }
         stage('Build and Test') {
             steps {
