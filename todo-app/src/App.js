@@ -24,7 +24,9 @@ function App() {
           type="text"
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
+          data-testid="task-input"
         />
+
         <button onClick={addTask}>Add Task</button>
       </div>
       <ul>
