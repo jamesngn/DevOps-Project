@@ -10,6 +10,7 @@ pipeline {
                 dir('todo-app') {
                     // Install Node.js dependencies
                     sh 'npm install'
+                    sh 'npm run build'
                 }
             }
         }
@@ -25,31 +26,31 @@ pipeline {
             }
         }
 
-        stage('Build Artifact') {
-            steps {
-                script {
-                    dir('todo-app') {
-                        sh 'npm run build'
-                    }
-                   
-                }
-            }
-        }
-        stage('Deploy to Azure VM') {
+        stage('Deploy to Azure App Service') {
             steps {
                 script {
                     // Define your Azure VM connection details
                     azureCredentials = credentials('51eaae5d-2fa7-43d4-939a-855bf51d5d5bd')
-                    azureVmIpAddress = '20.211.41.42'
-                    vmUsername = 'azureuser'
-                    vmPassword = 'your-vm-password'
+                    azureWebAppResourceGroup = 'whatodo_group'
+                    azureWebAppName = 'whatodo'
                     warFile = '**/build/**'
                     
                     // Copy built artifacts to Azure VM
-                    sh "scp -o StrictHostKeyChecking=no -r $warFile $vmUsername@$azureVmIpAddress:~/"
+                    azureWebAppPublish azureCredentials: azureCredentials,
+                                    resourceGroup: azureWebAppResourceGroup,
+                                    appName: azureWebAppName,
+                                    filePath: warFile
                 }
             }
         }
     }
-    
+
+    post {
+        success {
+            echo 'Deployment successful'
+        }
+        failure {
+            echo 'Deployment failed'
+        }
+    }
 }
