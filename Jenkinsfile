@@ -19,15 +19,15 @@ pipeline {
                 }
             }
         }
-        // stage('Install Azure CLI'){
-        //     steps{
-        //         sh '''
-        //         sudo apt-get update
-        //         sudo apt-get install -y curl gnupg lsb-release
-        //         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-        //         '''
-        //     }
-        // }
+        stage('Install Azure CLI'){
+            steps{
+                sh '''
+                sudo apt-get update
+                sudo apt-get install -y curl gnupg lsb-release
+                curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+                '''
+            }
+        }
 
     }
 
