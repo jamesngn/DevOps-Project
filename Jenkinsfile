@@ -27,15 +27,10 @@ pipeline {
                 dir('todo-app') {
                     // Add steps to run tests here (if applicable)
                     // For React, you might use a testing framework like Jest
-                    // Example: sh 'npm test'
+                    sh 'echo "Running tests"'
                 }
             }
         }
     }
     
-    post {
-        success {
-            // Define post-build actions here (e.g., deployment steps)
-        }
-    }
 }
