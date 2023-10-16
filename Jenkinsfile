@@ -1,16 +1,41 @@
 pipeline {
     agent any
-
-    stages {
-        stage('Test Build Trigger With Push Event') {
+    
+    stages {        
+        stage('Set Up Environment') {
             steps {
-                sh 'echo "Received a push event in GitHub.."'
+                // Change directory to the todo-app folder
+                dir('todo-app') {
+                    // Install Node.js dependencies
+                    sh 'npm install'
+                }
             }
         }
-        stage('Build and Test') {
+        
+        stage('Build') {
             steps {
-                sh 'echo "Build and Test completed."'
+                dir('todo-app') {
+                    // Build the React app
+                    sh 'npm run build'
+                }
             }
+        }
+        
+        
+        stage('Run Tests') {
+            steps {
+                dir('todo-app') {
+                    // Add steps to run tests here (if applicable)
+                    // For React, you might use a testing framework like Jest
+                    // Example: sh 'npm test'
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            // Define post-build actions here (e.g., deployment steps)
         }
     }
 }
