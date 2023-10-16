@@ -25,6 +25,14 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy') {
+            steps {
+                dir('todo-app') {
+                    sh 'npm start'
+                }
+            }
+        }
     }
     
 }
