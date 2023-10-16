@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Copy built artifacts to Azure VM
-                    azureWebAppPublish azureCredentialsId: '51eaae5d-2fa7-43d4-939a-855bf51d5d5b',
+                    azureWebAppPublish azureCredentialsId: 'azureServicePrincipal',
                                     resourceGroup: 'whatodo_group',
                                     appName: 'whatodo',
                                     filePath: '**/build/**',
