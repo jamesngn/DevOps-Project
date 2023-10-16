@@ -20,14 +20,16 @@ pipeline {
             }
         }
         stage('Install Azure CLI'){
-            steps{
-                sh '''
-                sudo apt-get update
-                sudo apt-get install -y curl gnupg lsb-release
-                curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-                '''
-            }
+    steps{
+        script {
+            def password = "admin123@"  // Define your password here
+            sh "echo ${password} | sudo -S apt-get update"
+            sh "echo ${password} | sudo -S apt-get install -y curl gnupg lsb-release"
+            sh "echo ${password} | sudo -S curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"
         }
+    }
+}
+
 
     }
 
