@@ -13,15 +13,7 @@ pipeline {
                 }
             }
         }
-        
-        stage('Build') {
-            steps {
-                dir('todo-app') {
-                    // Build the React app
-                    sh 'npm run build'
-                }
-            }
-        }
+    
         
         
         stage('Run Tests') {
