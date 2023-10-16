@@ -19,15 +19,14 @@ pipeline {
                 }
             }
         }
-        stage('Install Azure CLI'){
+        stage('deploy web app'){
             steps{
-                sh '''
-                su -
-                apt-get update
-                apt-get install -y curl gnupg lsb-release
-                curl -sL https://aka.ms/InstallAzureCLIDeb | bash
-                exit
-                '''
+                withCredentials([azureServicePrincipal('azureServicePrincipal')]) {
+                sh 'az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}'
+                }
+                withCredentials([usernamePassword(credentialsId: 'ACR', passwordVariable: 'password', usernameVariable: 'username')]) {
+                sh 'az webapp config container set --name whatodo --resource-group whatodo_group --docker-custom-image-name whatodo.azurecr.io/todo-app:latest --docker-registry-server-url https://whatodo.azurecr.io --docker-registry-server-user ${username} --docker-registry-server-password ${password}'
+                }
             }
         }
 
