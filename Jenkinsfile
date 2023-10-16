@@ -4,7 +4,7 @@ pipeline {
         nodejs 'NodeJS'
     }
     stages {        
-        stage('Set Up Environment') {
+        stage('Build') {
             steps {
                 // Change directory to the todo-app folder
                 dir('todo-app') {
@@ -16,12 +16,12 @@ pipeline {
     
         
         
-        stage('Run Tests') {
+        stage('Test') {
             steps {
                 dir('todo-app') {
                     // Add steps to run tests here (if applicable)
                     // For React, you might use a testing framework like Jest
-                    sh 'echo "Running tests"'
+                    sh 'npm test'
                 }
             }
         }
