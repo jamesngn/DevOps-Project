@@ -29,17 +29,11 @@ pipeline {
         stage('Deploy to Azure App Service') {
             steps {
                 script {
-                    // Define your Azure VM connection details
-                    azureCredentials = credentials('51eaae5d-2fa7-43d4-939a-855bf51d5d5bd')
-                    azureWebAppResourceGroup = 'whatodo_group'
-                    azureWebAppName = 'whatodo'
-                    warFile = '**/build/**'
-                    
                     // Copy built artifacts to Azure VM
-                    azureWebAppPublish azureCredentials: azureCredentials,
-                                    resourceGroup: azureWebAppResourceGroup,
-                                    appName: azureWebAppName,
-                                    filePath: warFile
+                    azureWebAppPublish credentialsId: '51eaae5d-2fa7-43d4-939a-855bf51d5d5bd',
+                                    resourceGroup: ''whatodo_group'',
+                                    appName: 'whatodo',
+                                    filePath: '**/build/**'
                 }
             }
         }
