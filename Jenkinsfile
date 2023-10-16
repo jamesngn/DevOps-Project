@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        nodejs 'nodejs'
+        nodejs 'NodeJS'
     }
     stages {        
         stage('Set Up Environment') {
