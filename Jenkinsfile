@@ -22,15 +22,12 @@ pipeline {
         stage('Install Azure CLI'){
             steps{
                 sh '''
-                su -
-                apt-get update
-                apt-get install -y curl gnupg lsb-release
-                curl -sL https://aka.ms/InstallAzureCLIDeb | bash
-                exit
+                sudo apt-get update
+                sudo apt-get install -y curl gnupg lsb-release
+                curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
                 '''
             }
         }
-
 
     }
 
