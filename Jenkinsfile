@@ -13,8 +13,8 @@ pipeline {
         }
         stage('Build App Image') {
             steps {
-                dir('todo-app'){
-                    dockerImage = docker.build(appRegistry + ':$BUILD_NUMBER', "./Dockerfile")
+                scripts {
+                    dockerImage = docker.build(appRegistry + ':$BUILD_NUMBER', "./todo-app/Dockerfile")
                     sh 'docker build -t whatodo.azurecr.io/todo-app .'
                 }
             }
