@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Build App Image') {
             steps {
-                scripts {
+                script {
                     sh 'docker compose build'
                 }
             }
