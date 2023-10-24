@@ -16,18 +16,15 @@ pipeline {
         stage('Build App Image') {
             steps {
                 scripts {
-                    dockerImage = docker.build(appRegistry + ':$BUILD_NUMBER', "./todo-app/Dockerfile")
-                    sh 'docker build -t whatodo.azurecr.io/todo-app .'
+                    sh 'docker compose build'
                 }
             }
         }
-        stage('Upload App Image'){
-            steps{
-                scripts {
-                    docker.withRegistry(whatodoRegistry, registryCredential) {
-                        dockerImage.push('$BUILD_NUMBER')
-                        dockerImage.push('latest');
-                    }
+         stage('Upload App Image to ECR') {
+            steps {
+                script {
+                    sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin 548137894424.dkr.ecr.${AWS_REGION}.amazonaws.com"
+                    sh 'docker compose push'
                 }
             }
         }
@@ -38,7 +35,5 @@ pipeline {
                 }
             }
         }
-
-
     }
 }

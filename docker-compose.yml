@@ -1,0 +1,18 @@
+version: '3'
+services:
+  todoapp:
+    container_name: todo-app
+    build:
+      context: ./todo-app
+      dockerfile: Dockerfile
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/whatodo:latest
+    ports:
+      - '5054:5054'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
+      
+networks:
+  my-network:
+    driver: bridge
