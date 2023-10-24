@@ -1,45 +1,42 @@
 pipeline {
     agent any
-    tools {
-        nodejs 'NodeJS'
+    environment {
+        registryCredential = 'ecr:ap-southeast-2:awscreds'
+        appRegistry = '548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/whatodo'
+        whatodoRegistry = 'https://548137894424.dkr.ecr.ap-southeast-2.amazonaws.com'
+        cluster = 'whatodoCluster'
+        service = 'whatodoappsvc'
     }
     stages {        
-        stage('Build Docker Image') {
+        stage('Test') {
+            echo "Testing"
+        }
+        stage('Build App Image') {
             steps {
                 dir('todo-app'){
+                    dockerImage = docker.build(appRegistry + ':$BUILD_NUMBER', "./Dockerfile")
                     sh 'docker build -t whatodo.azurecr.io/todo-app .'
                 }
             }
         }
-        stage('Push Image'){
+        stage('Upload App Image'){
             steps{
-                withCredentials([usernamePassword(credentialsId: 'ACR', passwordVariable: 'password', usernameVariable: 'username')]) {
-                sh 'docker login -u ${username} -p ${password} whatodo.azurecr.io'
-                sh 'docker push whatodo.azurecr.io/todo-app'
+                scripts {
+                    docker.withRegistry(whatodoRegistry, registryCredential) {
+                        dockerImage.push('$BUILD_NUMBER')
+                        dockerImage.push('latest');
+                    }
                 }
             }
         }
-        stage('deploy web app'){
+        stage('Deploy to ECS'){
             steps{
-                withCredentials([azureServicePrincipal('azureServicePrincipal')]) {
-                    sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
-                }
-
-                withCredentials([usernamePassword(credentialsId: 'ACR', passwordVariable: 'password', usernameVariable: 'username')]) {
-                    sh 'az webapp config container set --name whatodo --resource-group whatodo_group --docker-custom-image-name whatodo.azurecr.io/todo-app:latest --docker-registry-server-url https://whatodo.azurecr.io --docker-registry-server-user ${username} --docker-registry-server-password ${password}'
+                withAWS(credentials: 'awscreds', region:'ap-southeast-2') {
+                    sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
                 }
             }
         }
 
 
-    }
-
-    post {
-        success {
-            echo 'Deployment successful'
-        }
-        failure {
-            echo 'Deployment failed'
-        }
     }
 }
