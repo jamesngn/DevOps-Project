@@ -8,15 +8,22 @@ pipeline {
         service = 'whatodoapp-svc'
     }
     stages {        
-        stage('Test') {
+        stage('Build') {
             steps {
                 dir('todo-app') {
                     sh 'npm install'
+                    sh 'npm run build'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                dir('todo-app') {
                     sh 'npm test'
                 }
             }
         }
-        stage('Build App Image') {
+        stage('Build App Docker Image') {
             steps {
                 script {
                     sh 'docker compose build'
