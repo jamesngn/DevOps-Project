@@ -23,7 +23,7 @@ pipeline {
          stage('Upload App Image to ECR') {
             steps {
                 script {
-                    sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin 548137894424.dkr.ecr.${AWS_REGION}.amazonaws.com"
+                    sh "aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com"
                     sh 'docker compose push'
                 }
             }
