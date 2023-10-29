@@ -5,7 +5,7 @@ pipeline {
         appRegistry = '548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/whatodo'
         whatodoRegistry = 'https://548137894424.dkr.ecr.ap-southeast-2.amazonaws.com'
         cluster = 'whatodoCluster'
-        service = 'whatodoappsvc'
+        service = 'whatodoapp-svc'
     }
     stages {        
         stage('Test') {
