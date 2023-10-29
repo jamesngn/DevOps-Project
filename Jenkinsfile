@@ -10,7 +10,7 @@ pipeline {
     stages {        
         stage('Test') {
             steps {
-                sh 'echo "Testing"'
+                sh 'npm test'
             }
         }
         stage('Build App Image') {
