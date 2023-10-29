@@ -10,8 +10,10 @@ pipeline {
     stages {        
         stage('Test') {
             steps {
-                sh 'npm install'
-                sh 'npm test'
+                dir('todo-app') {
+                    sh 'npm install'
+                    sh 'npm test'
+                }
             }
         }
         stage('Build App Image') {
