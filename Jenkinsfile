@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+        nodejs 'NodeJS'
+    }
     environment {
         registryCredential = 'ecr:ap-southeast-2:awscreds'
         appRegistry = '548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/whatodo'
