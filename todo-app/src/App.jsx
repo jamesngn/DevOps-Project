@@ -19,7 +19,7 @@ function App() {
 
   return (
     <div>
-      <h1>My whatodo List</h1>
+      <h1>My To Do List</h1>
       <div>
         <input
           type="text"

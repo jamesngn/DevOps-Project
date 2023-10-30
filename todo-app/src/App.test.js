@@ -4,7 +4,7 @@ import App from "./App";
 
 test("renders My To-Do List header", () => {
   const { getByText } = render(<App />);
-  const headerElement = getByText(/My To-Do List/i);
+  const headerElement = getByText(/My To Do List/i);
   expect(headerElement).toBeInTheDocument();
 });
 
